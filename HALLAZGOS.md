@@ -8,14 +8,15 @@
 > **Qué es este proyecto.** Un intérprete de Brainf\*\*\* (ocho instrucciones, todas símbolos) en 82
 > líneas de Zymbol con nombres en español, `bf.zy`, y un oráculo independiente en Python
 > (`oraculo.py`) del que salen las salidas esperadas de sus 13 pruebas. Se escribió el
-> **2026-10-01**. Es una aplicación de las que LDV usa para probar el lenguaje, y los tres hallazgos
-> salieron de escribirla: dos de lo que le faltó al lenguaje, uno de un error de parseo al teclear.
-> **Los hallazgos de velocidad no son de este proyecto:** salieron de los benchmarks y están en
-> `ZyBench/HALLAZGOS.md`.
+> **2026-10-01**. Es una aplicación de las que LDV usa para probar el lenguaje —un **mini LDV** de
+> la v0.0.10—, y los tres hallazgos salieron de escribirla: dos de lo que le faltó al lenguaje, uno de
+> un error de parseo al teclear. **Los hallazgos de velocidad no son de este proyecto:** salieron de los
+> benchmarks y están en `zyquality/bench/python/HALLAZGOS.md`, el log de ZyBench.
 >
-> **Estado.** Cada entrada dice el suyo. **Nada se cierra con este documento:** el autor decide por
-> hallazgo si implementa, aplaza o rechaza. Este proyecto **no está en la puerta**
-> (`zyquality/project/apps.toml`) ni indexado en `LDV.md` § 5.1: eso también lo decide el autor.
+> **Estado.** Los tres, **cerrados el 2026-10-09**: el autor decidió cada uno y el lenguaje cambió en
+> la v0.0.10. Desde ese día el proyecto está en la puerta de calidad (`zyquality/project/apps.toml`, id
+> `zybf`) e indexado en `zymbol-design/LDV.md` § 5.1, y `bf.zy` usa lo que pidió: su instrucción `.` es
+> `salida = salida ##'cinta[p]`, sin la tabla de 256 literales (75 líneas).
 
 ---
 
@@ -23,9 +24,9 @@
 
 | ID | Tipo | Módulo | Qué | Motores | Estado |
 |----|------|--------|-----|---------|--------|
-| [GAP-BF-001](#gap-bf-001) | GAP | lenguaje | un valor calculado no se puede convertir en `Char`; solo hay literal por código | los tres | **ABIERTO** — hay rodeo (tabla de 256 literales) |
-| [ERROR-BF-002](#error-bf-002) | ERROR | `LLM.md`, `GUIDE.md`, `07_base_literals` | un literal con prefijo de base (`0xFF`, `0d65`) es siempre `Char`; tres textos dicen `Int` | los tres coinciden, la documentación no | **ABIERTO** — clase 1 de ZyDDT |
-| [IDEA-BF-003](#idea-bf-003) | IDEA | `zymbol-parser` | tras `x = e` una segunda sentencia en la misma línea falla con un error que no dice por qué | `zytw`, `zyvm` | **ABIERTO** |
+| [GAP-BF-001](#gap-bf-001) | GAP | lenguaje | un valor calculado no se puede convertir en `Char`; solo hay literal por código | los tres | **CERRADO** 2026-10-09 — `##'expr` (GLB-109) |
+| [ERROR-BF-002](#error-bf-002) | ERROR | `LLM.md`, `GUIDE.md`, `07_base_literals` | un literal con prefijo de base (`0xFF`, `0d65`) es siempre `Char`; tres textos dicen `Int` | los tres coinciden, la documentación no | **CERRADO** 2026-10-09 — los textos dicen `Char` (GLB-110) |
+| [IDEA-BF-003](#idea-bf-003) | IDEA | `zymbol-parser` | tras `x = e` una segunda sentencia en la misma línea falla con un error que no dice por qué | `zytw`, `zyvm` | **CERRADO** 2026-10-09 — el error lo dice (GLB-111) |
 
 ---
 
@@ -65,9 +66,14 @@ convierte un valor que solo existe al ejecutar. Y si la forma natural es `##'` a
 **Qué lo sujetaría:** un caso `casts/` del sentido inverso (entero → carácter, con el rango
 fuera de `0..255`), junto al `06_char_to_int` que ya existe.
 
-**Estado.** **ABIERTO.** Pregunta de diseño; sin respuesta. Registrado en ZyDDT como
-[`GLB-109`](../ZyDDT/HALLAZGOS/GLOBAL.md) (2026-10-09), validado contra la rama `v0.0.10`: en los tres
-motores `##'n` sigue siendo un error de parseo, y `zyjs` lo dice ya con las palabras de Rust.
+**Estado.** **CERRADO 2026-10-09.** Registrado en ZyDDT como `GLB-109` (`HALLAZGOS/GLOBAL.md`) y decidido
+por el autor el mismo día: `##'expr` convierte un `Int` en el carácter de ese punto de código, con la forma
+de sus hermanas `###`, `##.` y `##!` — un código sin carácter (más allá de `0x10FFFF`, un sustituto, un
+negativo) es `##Range`, un `Float` u otro tipo es `##Type`, los dos al ejecutar; un `Char` se queda igual.
+Lo sujetan `zyquality/corpus/casts/07_int_to_char.zy`, el sentido inverso de `06_char_to_int`, y cinco celdas de
+ZyDDT. `bf.zy` dejó la tabla: `salida = salida ##'cinta[p]`. Que esa línea se pueda escribir sin variable
+intermedia lo dio otro cambio del mismo día: un operador prefijo abre un operando yuxtapuesto también en una
+asignación (`GLB-114`).
 
 ---
 
@@ -129,10 +135,10 @@ autor. No hay nada sobre literales de base ni sobre entero → carácter en `HAL
 buscó). Un pin con el comportamiento observado acompaña a este hallazgo
 (`GLB-008_literal_de_base.zy`, a renombrar).
 
-**Estado.** **ABIERTO.** Registrado en ZyDDT como [`GLB-110`](../ZyDDT/HALLAZGOS/GLOBAL.md)
-(2026-10-09), que sustituye al `GLB-008` propuesto arriba. Validado contra la rama `v0.0.10`: `zyjs` coincide
-con los motores Rust, y el diseño ya lo decide —`zymbol-design/SYMBOLS.md`: *«base prefixes for character
-codes»*—, así que es la opción 1: corregir los tres textos.
+**Estado.** **CERRADO 2026-10-09** (opción 1). Registrado en ZyDDT como `GLB-110` (`HALLAZGOS/GLOBAL.md`), que
+sustituye al `GLB-008` propuesto arriba. `zyjs` coincide con los motores Rust, y el diseño ya lo decidía
+—`zymbol-design/SYMBOLS.md`: *«base prefixes for character codes»*—: `LLM.md`, la GUIDE (con un ejemplo de
+`0xFF` y `##!0xFF` que `guide_verify` comprueba) y el comentario de `07_base_literals.zy` dicen ahora `Char`.
 
 ---
 
@@ -176,9 +182,17 @@ error salta recién en el `=`; la asignación compuesta no la acepta, por eso co
 expresión anterior; separa las sentencias con un salto de línea o `;`») en lugar de listar lo que
 se esperaba. La lista de `expected statement (…)` es cierta y no ayuda a quien tropieza.
 
-**Estado.** **ABIERTO.** No es un defecto de ejecución; es de diagnóstico. Registrado en ZyDDT como
-[`GLB-111`](../ZyDDT/HALLAZGOS/GLOBAL.md) (2026-10-09). La hipótesis se confirmó al medir: `t = "a" b "c"`
-da `axc` y `t += "a" b "c"` se rechaza, y `s = 1  i` da `11` sin aviso.
+**Estado.** **CERRADO 2026-10-09.** No era un defecto de ejecución sino de diagnóstico. Registrado en ZyDDT
+como `GLB-111` (`HALLAZGOS/GLOBAL.md`). La hipótesis se confirmó al medir: `t = "a" b "c"` da `axc` y
+`t += "a" b "c"` se rechaza, y `s = 1  i` da `11` sin aviso. Decidido por el autor: los tres motores dicen
+
+```
+error: unexpected '=': 'i' was read as part of the expression before it
+  = help: a new statement starts on a new line, or after ';'
+```
+
+igual para `+=` y `++`; la yuxtaposición silenciosa (`s = 1  i`) no avisa, porque es la concatenación del
+lenguaje.
 
 ---
 
@@ -199,11 +213,20 @@ Lo que se equivocó por el camino, apuntado porque forma parte del método:
 Lo que sí funcionó: **un oráculo independiente** (el intérprete de `bf.zy` en Python), que dio las salidas
 esperadas sin pasar por el código que se prueba.
 
+Y el ciclo se cerró: los tres hallazgos cambiaron el lenguaje en la v0.0.10, y la aplicación que los encontró
+usa ya el cambio —`bf.zy` pasó de 96 a 75 líneas al quitar la tabla—, con las mismas 13 pruebas contra el
+oráculo en los tres motores.
+
 ---
 
 ## Ficheros
 
 | fichero | qué es |
 |---|---|
-| `bf/bf.zy`, `bf/bf_cli.zy`, `bf/pruebas.zy`, `bf/oraculo.py` | el intérprete, su línea de comandos, las 13 pruebas, el oráculo |
-| `GLB-008_literal_de_base.md`, `cases/pin/GLB-008_literal_de_base.zy`, `GAP_int_a_caracter.md` | las fichas ZyDDT de ERROR-BF-002 y GAP-BF-001, a renumerar |
+| `bf.zy`, `bf_cli.zy` | el intérprete y su línea de comandos |
+| `pruebas/oraculo.zy`, `pruebas/oraculo.expected` | las 13 pruebas y su golden, que lee la puerta de calidad |
+| `oraculo.py` | el intérprete de referencia en Python del que salen las salidas esperadas |
+| `pesado2.zy` | un programa largo, para medir |
+
+Las fichas de ZyDDT (`GLB-109`, `GLB-110`, `GLB-111`) están en su repositorio, `HALLAZGOS/GLOBAL.md`; las
+fichas provisionales que se escribieron antes de numerarlas no se publicaron.
