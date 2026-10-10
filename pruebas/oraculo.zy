@@ -1,6 +1,6 @@
-// pruebas.zy — generado por oraculo.py: las salidas esperadas vienen de un
+// pruebas/oraculo.zy — generado por oraculo.py: las salidas esperadas vienen de un
 // intérprete de referencia independiente escrito en Python, no de bf.zy.
-<# ./bf => bf
+<# ../bf => bf
 
 casos = [
     #["A (8x8+1)", "++++++++[>++++++++<-]>+.", "", "A", 108],

@@ -1,0 +1,14 @@
+  ✔ A (8x8+1)
+  ✔ Hola mundo clásico
+  ✔ invertir (con centinela)
+  ✔ eco (cat)
+  ✔ comentarios ignorados
+  ✔ 3 bucles anidados (11^3 mod 256 = '3')
+  ✔ vuelta de 8 bits (empieza en 255)
+  ✔ sin entrada: , deja 0 (y 10 más = salto)
+  ✔ salto de línea (código 10)
+  ✔ vuelta a 255 = ÿ (U+00FF)
+  ✔ corchete sobrante
+  ✔ corchete sin cerrar
+  ✔ puntero fuera de la cinta
+13 de 13 pruebas correctas

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """Intérprete de referencia en Python con la MISMA semántica que bf.zy.
-Sirve de oráculo: genera las salidas esperadas de pruebas.zy de forma independiente."""
+Sirve de oráculo: genera las salidas esperadas de pruebas/oraculo.zy de forma independiente."""
 def ejecutar(prog, entrada=""):
     n = len(prog); saltos = [0]*(n+2); pila = []
     for i, c in enumerate(prog, 1):

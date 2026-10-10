@@ -3,35 +3,14 @@
 // ejecutar(programa, entrada)  ->  (salida, pasos)
 //   programa : texto con los ocho símbolos  > < + - . , [ ]  (lo demás es comentario)
 //   entrada  : texto que consume la instrucción ","
-//   salida   : texto producido por "."  (la celda 0..255 es el carácter de ese código)
+//   salida   : texto producido por "."  (la celda 0..255 es el carácter de ese código,
+//              que da ##' — desde Zymbol v0.0.10; antes, una tabla de 256 literales)
 //   pasos    : instrucciones ejecutadas
 // Una cinta de 300 celdas de 8 bits (dan la vuelta: 255 + 1 = 0) y puntero que
 // no puede salirse de ella. Corchetes mal emparejados -> error legible.
 
 # bf {
     #> { ejecutar }
-
-    // Conversión entero -> carácter: Zymbol no tiene una función para ello, pero sí un
-    // literal por código (0d65 es la A). Una tabla de 256 literales, indexada en
-    // tiempo de ejecución, cubre todos los valores de una celda.
-    tabla = [
-        0d0, 0d1, 0d2, 0d3, 0d4, 0d5, 0d6, 0d7, 0d8, 0d9, 0d10, 0d11, 0d12, 0d13, 0d14, 0d15,
-        0d16, 0d17, 0d18, 0d19, 0d20, 0d21, 0d22, 0d23, 0d24, 0d25, 0d26, 0d27, 0d28, 0d29, 0d30, 0d31,
-        0d32, 0d33, 0d34, 0d35, 0d36, 0d37, 0d38, 0d39, 0d40, 0d41, 0d42, 0d43, 0d44, 0d45, 0d46, 0d47,
-        0d48, 0d49, 0d50, 0d51, 0d52, 0d53, 0d54, 0d55, 0d56, 0d57, 0d58, 0d59, 0d60, 0d61, 0d62, 0d63,
-        0d64, 0d65, 0d66, 0d67, 0d68, 0d69, 0d70, 0d71, 0d72, 0d73, 0d74, 0d75, 0d76, 0d77, 0d78, 0d79,
-        0d80, 0d81, 0d82, 0d83, 0d84, 0d85, 0d86, 0d87, 0d88, 0d89, 0d90, 0d91, 0d92, 0d93, 0d94, 0d95,
-        0d96, 0d97, 0d98, 0d99, 0d100, 0d101, 0d102, 0d103, 0d104, 0d105, 0d106, 0d107, 0d108, 0d109, 0d110, 0d111,
-        0d112, 0d113, 0d114, 0d115, 0d116, 0d117, 0d118, 0d119, 0d120, 0d121, 0d122, 0d123, 0d124, 0d125, 0d126, 0d127,
-        0d128, 0d129, 0d130, 0d131, 0d132, 0d133, 0d134, 0d135, 0d136, 0d137, 0d138, 0d139, 0d140, 0d141, 0d142, 0d143,
-        0d144, 0d145, 0d146, 0d147, 0d148, 0d149, 0d150, 0d151, 0d152, 0d153, 0d154, 0d155, 0d156, 0d157, 0d158, 0d159,
-        0d160, 0d161, 0d162, 0d163, 0d164, 0d165, 0d166, 0d167, 0d168, 0d169, 0d170, 0d171, 0d172, 0d173, 0d174, 0d175,
-        0d176, 0d177, 0d178, 0d179, 0d180, 0d181, 0d182, 0d183, 0d184, 0d185, 0d186, 0d187, 0d188, 0d189, 0d190, 0d191,
-        0d192, 0d193, 0d194, 0d195, 0d196, 0d197, 0d198, 0d199, 0d200, 0d201, 0d202, 0d203, 0d204, 0d205, 0d206, 0d207,
-        0d208, 0d209, 0d210, 0d211, 0d212, 0d213, 0d214, 0d215, 0d216, 0d217, 0d218, 0d219, 0d220, 0d221, 0d222, 0d223,
-        0d224, 0d225, 0d226, 0d227, 0d228, 0d229, 0d230, 0d231, 0d232, 0d233, 0d234, 0d235, 0d236, 0d237, 0d238, 0d239,
-        0d240, 0d241, 0d242, 0d243, 0d244, 0d245, 0d246, 0d247, 0d248, 0d249, 0d250, 0d251, 0d252, 0d253, 0d254, 0d255
-    ]
 
     // Para cada [ guarda dónde está su ], y al revés.
     emparejar(programa) {
@@ -76,7 +55,7 @@
                 == '<' => { p -= 1 }
                 == '+' => { cinta[p]$~ ((cinta[p] + 1) % 256) }
                 == '-' => { cinta[p]$~ ((cinta[p] + 255) % 256) }
-                == '.' => { salida = salida tabla[cinta[p] + 1] }
+                == '.' => { salida = salida ##'cinta[p] }
                 == ',' => {
                     ? ie <= entrada$# {
                         cinta[p]$~ (##!entrada[ie])
