@@ -65,7 +65,9 @@ convierte un valor que solo existe al ejecutar. Y si la forma natural es `##'` a
 **Qué lo sujetaría:** un caso `casts/` del sentido inverso (entero → carácter, con el rango
 fuera de `0..255`), junto al `06_char_to_int` que ya existe.
 
-**Estado.** **ABIERTO.** Pregunta de diseño; sin respuesta.
+**Estado.** **ABIERTO.** Pregunta de diseño; sin respuesta. Registrado en ZyDDT como
+[`GLB-109`](../ZyDDT/HALLAZGOS/GLOBAL.md) (2026-10-09), validado contra la rama `v0.0.10`: en los tres
+motores `##'n` sigue siendo un error de parseo, y `zyjs` lo dice ya con las palabras de Rust.
 
 ---
 
@@ -127,7 +129,10 @@ autor. No hay nada sobre literales de base ni sobre entero → carácter en `HAL
 buscó). Un pin con el comportamiento observado acompaña a este hallazgo
 (`GLB-008_literal_de_base.zy`, a renombrar).
 
-**Estado.** **ABIERTO.**
+**Estado.** **ABIERTO.** Registrado en ZyDDT como [`GLB-110`](../ZyDDT/HALLAZGOS/GLOBAL.md)
+(2026-10-09), que sustituye al `GLB-008` propuesto arriba. Validado contra la rama `v0.0.10`: `zyjs` coincide
+con los motores Rust, y el diseño ya lo decide —`zymbol-design/SYMBOLS.md`: *«base prefixes for character
+codes»*—, así que es la opción 1: corregir los tres textos.
 
 ---
 
@@ -171,7 +176,9 @@ error salta recién en el `=`; la asignación compuesta no la acepta, por eso co
 expresión anterior; separa las sentencias con un salto de línea o `;`») en lugar de listar lo que
 se esperaba. La lista de `expected statement (…)` es cierta y no ayuda a quien tropieza.
 
-**Estado.** **ABIERTO.** No es un defecto de ejecución; es de diagnóstico.
+**Estado.** **ABIERTO.** No es un defecto de ejecución; es de diagnóstico. Registrado en ZyDDT como
+[`GLB-111`](../ZyDDT/HALLAZGOS/GLOBAL.md) (2026-10-09). La hipótesis se confirmó al medir: `t = "a" b "c"`
+da `axc` y `t += "a" b "c"` se rechaza, y `s = 1  i` da `11` sin aviso.
 
 ---
 
