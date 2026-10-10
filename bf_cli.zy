@@ -1,0 +1,7 @@
+// Uso:  printf '%s\n%s\n' 'PROGRAMA' 'ENTRADA' | zymbol run bf_cli.zy
+<# ./bf => bf
+<< programa
+<< entrada
+(salida, pasos) = bf::ejecutar(programa, entrada)
+>> salida ¶
+>> "(" pasos " pasos)" ¶

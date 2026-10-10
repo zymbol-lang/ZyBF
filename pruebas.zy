@@ -1,0 +1,36 @@
+// pruebas.zy — generado por oraculo.py: las salidas esperadas vienen de un
+// intérprete de referencia independiente escrito en Python, no de bf.zy.
+<# ./bf => bf
+
+casos = [
+    #["A (8x8+1)", "++++++++[>++++++++<-]>+.", "", "A", 108],
+    #["Hola mundo clásico", "++++++++[>++++[>++>+++>+++>+<<<<-]>+>+>->>+[<]<-]>>.>---.+++++++..+++.>>.<-.<.+++.------.--------.>>+.>++.", "", "Hello World!\n", 906],
+    #["invertir (con centinela)", ">,[>,]<[.<]", "Zymbol", "lobmyZ", 41],
+    #["eco (cat)", ",[.,]", "Hola, Zymbol 0.0.10!\nsegunda línea", "Hola, Zymbol 0.0.10!\nsegunda línea", 104],
+    #["comentarios ignorados", "suma: ++++[>+++++<-] resultado >++++++++++++++++++++++++++++++++++++++++++++++++. fin", "", "D", 91],
+    #["3 bucles anidados (11^3 mod 256 = '3')", "+++++++++++[>+++++++++++[>+++++++++++[>+<-]<-]<-]>>>.", "", "3", 8783],
+    #["vuelta de 8 bits (empieza en 255)", "-+++++++[>+++++++++<-]>+++.", "", "9", 92],
+    #["sin entrada: , deja 0 (y 10 más = salto)", ",++++++++++.", "", "\n", 12],
+    #["salto de línea (código 10)", "++++++++++.", "", "\n", 11],
+    #["vuelta a 255 = ÿ (U+00FF)", "-.", "", "ÿ", 2],
+    #["corchete sobrante", "+]", "", "error: sobra un ] en la posición 2", 0],
+    #["corchete sin cerrar", "[[+]", "", "error: falta cerrar el [ de la posición 1", 0],
+    #["puntero fuera de la cinta", "<+", "", "\n[error: el puntero salió de la cinta]", 0]
+]
+
+ok = 0
+mal = 0
+@ caso:casos {
+    (salida, pasos) = bf::ejecutar(caso[2], caso[3])
+    ? salida == caso[4] && pasos == caso[5] {
+        >> "  ✔ " caso[1] ¶
+        ok += 1
+    } _ {
+        >> "  ✘ " caso[1] ¶
+        >> "      esperado: " caso[4] " (" caso[5] " pasos)" ¶
+        >> "      obtenido: " salida " (" pasos " pasos)" ¶
+        mal += 1
+    }
+}
+>> ¶
+>> ok " de " (ok + mal) " pruebas correctas" ¶
