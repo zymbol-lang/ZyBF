@@ -93,7 +93,7 @@ Encontrado el **2026-10-01** leyendo `corpus/arithmetic/07_base_literals.zy` con
 ##' 65
 ```
 
-Idéntico en `zytw`, `zyvm` y `zyjs` (v0.0.9; `zytw` y `zyvm` también en la v0.0.10 `820a60a`).
+Idéntico en `zytw`, `zyvm` y `zyjs` (v0.0.9; `zytw` y `zyvm` también en la v0.0.10 `7af111b`).
 `0xFF` es `ÿ`, `0x3042` es `あ`, y `0d65` —«decimal explícito» en la guía— es `A`, no el 65.
 
 | dónde | dice |
@@ -128,7 +128,7 @@ nada**. Tampoco se sabe si `zyjs` en la rama v0.0.10 coincide.
 3. **Separar las dos cosas con una forma nueva**, p. ej. un literal de entero hexadecimal
    distinto del de carácter. Resuelve «no hay hexadecimal entero» sin tocar lo existente; la más cara.
 
-**Para ZyDDT.** En la rama `v0.0.10` (`b54a2df`, 2026-10-06) la numeración de `GLOBAL.md` llega a
+**Para ZyDDT.** En la rama `v0.0.10` (`ea52ff4`, 2026-10-06) la numeración de `GLOBAL.md` llega a
 `GLB-103` y `GLB-008` **ya está ocupado** (otro hallazgo); el ID `GLB-008` que se propuso antes
 para este caso en la rama `main` **queda sin efecto**. Siguiente libre: `GLB-104`; lo asigna el
 autor. No hay nada sobre literales de base ni sobre entero → carácter en `HALLAZGOS/` (se
@@ -149,7 +149,7 @@ sustituye al `GLB-008` propuesto arriba. `zyjs` coincide con los motores Rust, y
 **Después de `x = e`, una segunda sentencia en la misma línea falla con un error que apunta al
 `=` o al `+=` de la segunda y no dice que la primera se la comió.**
 
-Encontrado el **2026-10-01** (al escribir `pruebas.zy`) y reproducido el **2026-10-07** en la rama v0.0.10 `820a60a`. Con
+Encontrado el **2026-10-01** (al escribir `pruebas.zy`) y reproducido el **2026-10-07** en la rama v0.0.10 `7af111b`. Con
 `s = 0`, `i = 1` y la sentencia dentro de `@ i <= 2 { … }`:
 
 | escrito en una línea | resultado |
