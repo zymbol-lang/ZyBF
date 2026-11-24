@@ -71,7 +71,9 @@ por el autor el mismo día: `##'expr` convierte un `Int` en el carácter de ese 
 de sus hermanas `###`, `##.` y `##!` — un código sin carácter (más allá de `0x10FFFF`, un sustituto, un
 negativo) es `##Range`, un `Float` u otro tipo es `##Type`, los dos al ejecutar; un `Char` se queda igual.
 Lo sujetan `zyquality/corpus/casts/07_int_to_char.zy`, el sentido inverso de `06_char_to_int`, y cinco celdas de
-ZyDDT. `bf.zy` dejó la tabla: `salida = salida ##'cinta[p]`. Que esa línea se pueda escribir sin variable
+ZyDDT. `bf.zy` dejó la tabla: `salida = salida ##'cinta[p]`. **Revisado el 2026-11-24 (D-24, v0.0.12):** el autor
+retiró `##'` y `##!` sobre un `Char` porque no se entendían ni se parecían a la familia de bases; la línea es ahora
+`salida = salida 0d|cinta[p]|` y la lectura de la entrada `cinta[p]$~ (0d|entrada[ie]|)`. Que esa línea se pueda escribir sin variable
 intermedia lo dio otro cambio del mismo día: un operador prefijo abre un operando yuxtapuesto también en una
 asignación (`GLB-114`).
 
