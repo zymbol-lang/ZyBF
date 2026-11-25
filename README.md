@@ -7,8 +7,8 @@ Un lenguaje de símbolos interpretado por otro lenguaje de símbolos.
 
 Es un **mini LDV** de Zymbol v0.0.10: una aplicación pequeña escrita para poner el
 lenguaje a prueba en un dominio. Sus tres hallazgos (`HALLAZGOS.md`) cambiaron el
-lenguaje, y la propia aplicación usa ya lo que pidió: `##'`, la conversión de un
-entero en su carácter.
+lenguaje, y la propia aplicación usa ya lo que pidió: la conversión de un entero
+en su carácter — `##'n` en v0.0.10 y v0.0.11, `|n|` desde v0.0.12 (D-25).
 
 | Archivo | Qué es |
 |---|---|
@@ -28,7 +28,8 @@ Semántica: cinta de 300 celdas de 8 bits que dan la vuelta; el puntero no puede
 salir de ella (error legible); `,` sin entrada deja 0; `.` imprime el carácter
 cuyo código es el valor de la celda (0..255); corchetes mal emparejados dan error.
 
-Requiere Zymbol **v0.0.10**: la instrucción `.` es `salida = salida ##'cinta[p]`.
+Requiere Zymbol **v0.0.12**: la instrucción `.` es `salida = salida |cinta[p]|`
+(`##'cinta[p]` en v0.0.10 y v0.0.11; `##'` se retiró en v0.0.12, D-24 y D-25).
 Hasta la v0.0.9 no había paso de entero a carácter, y `bf.zy` llevaba una tabla de
 256 literales `0d0 .. 0d255` indexada en ejecución (GAP-BF-001).
 

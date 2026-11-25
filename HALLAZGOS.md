@@ -75,7 +75,9 @@ ZyDDT. `bf.zy` dejó la tabla: `salida = salida ##'cinta[p]`. **Revisado el 2026
 retiró `##'` y `##!` sobre un `Char` porque no se entendían ni se parecían a la familia de bases; la línea es ahora
 `salida = salida 0d|cinta[p]|` y la lectura de la entrada `cinta[p]$~ (0d|entrada[ie]|)`. Que esa línea se pueda escribir sin variable
 intermedia lo dio otro cambio del mismo día: un operador prefijo abre un operando yuxtapuesto también en una
-asignación (`GLB-114`).
+asignación (`GLB-114`). **Revisado otra vez el mismo día (D-25):** `0d` volvió a dar texto como sus tres hermanas,
+y quedaron tres puertas — la base da el texto, las barras solas `|…|` el carácter y `#|…|` el número. La línea es
+`salida = salida |cinta[p]|` y la entrada `cinta[p]$~ (#|entrada[ie]|)`.
 
 ---
 

@@ -4,7 +4,7 @@
 //   programa : texto con los ocho símbolos  > < + - . , [ ]  (lo demás es comentario)
 //   entrada  : texto que consume la instrucción ","
 //   salida   : texto producido por "."  (la celda 0..255 es el carácter de ese código,
-//              que da 0d|n| desde Zymbol v0.0.12; ##' en v0.0.10 y v0.0.11; antes,
+//              que da |n| desde Zymbol v0.0.12; ##' en v0.0.10 y v0.0.11; antes,
 //              una tabla de 256 literales)
 //   pasos    : instrucciones ejecutadas
 // Una cinta de 300 celdas de 8 bits (dan la vuelta: 255 + 1 = 0) y puntero que
@@ -56,10 +56,10 @@
                 == '<' => { p -= 1 }
                 == '+' => { cinta[p]$~ ((cinta[p] + 1) % 256) }
                 == '-' => { cinta[p]$~ ((cinta[p] + 255) % 256) }
-                == '.' => { salida = salida 0d|cinta[p]| }
+                == '.' => { salida = salida |cinta[p]| }
                 == ',' => {
                     ? ie <= entrada$# {
-                        cinta[p]$~ (0d|entrada[ie]|)
+                        cinta[p]$~ (#|entrada[ie]|)
                         ie += 1
                     } _ { cinta[p]$~ 0 }
                 }
